@@ -1,28 +1,41 @@
 package com.lab.jpa.springbootlist.controller;
 import com.lab.jpa.springbootlist.dto.ProductRequestDTO;
 import com.lab.jpa.springbootlist.dto.ProductResponseDTO;
+import com.lab.jpa.springbootlist.repository.ProductRepository;
 import com.lab.jpa.springbootlist.service.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Controller
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService service;
-    public ProductController(ProductService service) {
+    private final ProductRepository productRepository;
+
+    public ProductController(ProductService service, ProductRepository productRepository) {
         this.service = service;
+        this.productRepository = productRepository;
     }
     // 1. Listagem de Todos os Produtos (GET /products)
     @GetMapping
-    public String listProducts(Model model) {
-        List<ProductResponseDTO> products = service.listAll();
-        model.addAttribute("listProducts", products);
+    public String listar(@PageableDefault(
+            page = 0,size = 10, sort = "nome", direction = Sort.Direction.ASC
+    ) Pageable pageable, Model model){
+        Page<ProductResponseDTO> product = service.listAll(pageable);
+        model.addAttribute("listProducts", product);
         return "index";
-    }
+     }
     // 2. Exibição do Formulário de Cadastro (GET /products/new)
     @GetMapping("/new")
     public String showCreateForm(Model model) {

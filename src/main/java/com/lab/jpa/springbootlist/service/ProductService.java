@@ -4,6 +4,8 @@ import com.lab.jpa.springbootlist.dto.ProductResponseDTO;
 import com.lab.jpa.springbootlist.model.Product;
 import com.lab.jpa.springbootlist.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -15,12 +17,12 @@ public class ProductService {
     public ProductService(ProductRepository repository){
         this.repository = repository;
     }
-    public List<ProductResponseDTO> listAll() {
-        return repository.findAll()
-                .stream()
-                .map(ProductResponseDTO::new)
-                .toList();
+
+    @Transactional(readOnly = true)
+    public Page<ProductResponseDTO> listAll(Pageable pageable){
+        return repository.findAll(pageable).map(ProductResponseDTO::new);
     }
+
     public ProductResponseDTO get(Long id) {
         return repository.findById(id)
                 .map(ProductResponseDTO::new)
