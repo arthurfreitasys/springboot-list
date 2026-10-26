@@ -1,4 +1,5 @@
 package com.lab.jpa.springbootlist.controller;
+
 import com.lab.jpa.springbootlist.dto.ProductRequestDTO;
 import com.lab.jpa.springbootlist.dto.ProductResponseDTO;
 import com.lab.jpa.springbootlist.repository.ProductRepository;
@@ -13,19 +14,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import java.util.List;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Controller
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService service;
-    private final ProductRepository productRepository;
 
-    public ProductController(ProductService service, ProductRepository productRepository) {
+    public ProductController(ProductService service) {
         this.service = service;
-        this.productRepository = productRepository;
     }
     // 1. Listagem de Todos os Produtos (GET /products)
     @GetMapping
