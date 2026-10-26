@@ -24,7 +24,7 @@ public class ProductController {
         this.service = service;
     }
     // 1. Listagem de Todos os Produtos (GET /products)
-    @GetMapping
+    @GetMapping({"/", "/products"})
     public String listar(@PageableDefault(
             page = 0,size = 10, sort = "nome", direction = Sort.Direction.ASC
     ) Pageable pageable, Model model){
