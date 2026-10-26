@@ -2,7 +2,6 @@ package com.lab.jpa.springbootlist.controller;
 
 import com.lab.jpa.springbootlist.dto.ProductRequestDTO;
 import com.lab.jpa.springbootlist.dto.ProductResponseDTO;
-import com.lab.jpa.springbootlist.repository.ProductRepository;
 import com.lab.jpa.springbootlist.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -24,7 +23,7 @@ public class ProductController {
         this.service = service;
     }
     // 1. Listagem de Todos os Produtos (GET /products)
-    @GetMapping({"/", "/products"})
+    @GetMapping({"", "/"})
     public String listar(@PageableDefault(
             page = 0,size = 10, sort = "nome", direction = Sort.Direction.ASC
     ) Pageable pageable, Model model){
