@@ -2,6 +2,7 @@ package com.lab.jpa.springbootlist.controller;
 
 import com.lab.jpa.springbootlist.dto.ProductRequestDTO;
 import com.lab.jpa.springbootlist.dto.ProductResponseDTO;
+import com.lab.jpa.springbootlist.repository.ProductRepository;
 import com.lab.jpa.springbootlist.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -18,16 +19,22 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService service;
-
-    public ProductController(ProductService service) {
+    private final ProductRepository repository;
+    public ProductController(ProductService service, ProductRepository repository) {
         this.service = service;
+        this.repository = repository;
     }
-    // 1. Listagem de Todos os Produtos (GET /products)
+
+    // 1. Listagem de Todos os Produtos (GET /products) + filtro de pesquisa
     @GetMapping({"", "/"})
-    public String listar(@PageableDefault(
-            page = 0,size = 10, sort = "nome", direction = Sort.Direction.ASC
-    ) Pageable pageable, Model model){
-        Page<ProductResponseDTO> product = service.listAll(pageable);
+    public String list(@PageableDefault(page = 0,size = 10, sort = "nome", direction = Sort.Direction.ASC) Pageable pageable, Model model,
+                         @RequestParam(required = false, name = "nome") String busca){
+        Page<ProductResponseDTO> product;
+        if (busca == null || busca.isBlank()){
+            product = service.listAll(pageable);
+        }else {
+            product = service.buscar(busca, pageable);
+        }
         model.addAttribute("listProducts", product);
         return "index";
      }
@@ -75,4 +82,6 @@ public class ProductController {
         attr.addFlashAttribute("success", "Registro excluído com sucesso!");
         return "redirect:/products";
     }
+
+
 }

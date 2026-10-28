@@ -29,6 +29,12 @@ public class ProductService {
                 .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado com o ID: " +
                         id));
     }
+
+    public Page<ProductResponseDTO> buscar(String busca, Pageable pageable){
+        return repository.findByMarcaContainingIgnoreCaseOrNomeContainingIgnoreCase(busca, busca, pageable)
+                .map(ProductResponseDTO::new);
+    }
+
     public void save(ProductRequestDTO dto) {
         Product product = new Product();
         product.setId(dto.id()); // Se id for null, o JPA faz INSERT; se tiver id, faz UPDATE

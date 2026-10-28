@@ -45,7 +45,30 @@
         <div class="card shadow-sm border-0">
 
             <div class="card-body p-0">
+                <form th:action="@{/products}" method="get" class="mb-3">
+                    <div class="input-group">
+        <span class="input-group-text bg-white">
+            <i class="bi bi-search"></i>
+        </span>
 
+                        <input
+                                type="text"
+                                name="nome"
+                                class="form-control"
+                                placeholder="Buscar por nome ou marca..."
+                                th:value="${param.nome}"
+                                aria-label="Buscar produtos por nome ou marca"
+                        />
+
+                        <button type="submit" class="btn btn-primary">
+                            Buscar
+                        </button>
+
+                        <a th:href="@{/products}" class="btn btn-outline-secondary">
+                            Limpar
+                        </a>
+                    </div>
+                </form>
                 <!-- Tabela de produtos -->
                 <table class="table table-hover table-striped align-middle mb-0">
 
@@ -183,4 +206,3 @@
 
 </body>
 </html>
-```
