@@ -76,7 +76,7 @@ public class ProductController {
         return "edit_product";
     }
     // 5. Exclusão de Registro (GET /products/delete/{id})
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long id, RedirectAttributes attr) {
         service.delete(id);
         attr.addFlashAttribute("success", "Registro excluído com sucesso!");
