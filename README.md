@@ -44,3 +44,17 @@ Além das funcionalidades presentes no código-base, foram implementadas as segu
 O objetivo deste projeto é praticar os conceitos de desenvolvimento web com Java e Spring Boot, compreender a integração entre as diferentes camadas de uma aplicação e explorar recursos de persistência de dados, autenticação e segurança.
 
 O projeto também serve como oportunidade para aplicar conhecimentos além do código inicialmente disponibilizado pelo professor.
+
+## Usuários para teste
+
+| Perfil | Usuário | Senha |
+|---|---|---|
+| Administrador (ADMIN) | `administrador` | `senha12345` |
+| Usuário comum (USER) | `usuario_comum` | `senha12345` |
+
+### Permissões
+
+- **ADMIN:** pode visualizar, cadastrar, editar e excluir produtos.
+- **USER:** pode apenas visualizar os produtos.
+
+> **Observação:** os usuários precisam estar cadastrados no banco de dados para que as credenciais funcionem.
