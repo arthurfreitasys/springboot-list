@@ -1,4 +1,4 @@
-package com.lab.jpa.springbootlist.repository;
+package com.lab.jpa.springbootlist.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
