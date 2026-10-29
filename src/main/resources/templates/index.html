@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8"/>
@@ -31,10 +32,12 @@
             Painel administrativo para controle e gerenciamento de produtos para venda
         </p>
 
-        <a class="btn btn-primary btn-lg" href="/products/new">
-            <i class="bi bi-plus-circle me-1"></i>
-            Criar Novo Produto
-        </a>
+        <div sec:authorize="hasRole('ADMIN')">
+            <a class="btn btn-primary btn-lg" href="/products/new">
+                <i class="bi bi-plus-circle me-1"></i>
+                Criar Novo Produto
+            </a>
+        </div>
     </div>
 
     <div class="container-fluid px-0">
@@ -113,22 +116,26 @@
 
                         <td class="text-center">
 
-                            <!-- Editar -->
-                            <a class="btn btn-outline-primary btn-sm me-1"
-                               title="Editar Produto"
-                               th:href="@{'/products/edit/' + ${product.id}}"
-                               role="button">
-                                <i class="bi bi-pencil"></i>
-                            </a>
+                            <div sec:authorize="hasRole('ADMIN')">
 
-                            <!-- Excluir -->
-                            <a class="btn btn-outline-danger btn-sm"
-                               title="Excluir Produto"
-                               th:href="@{'/products/delete/' + ${product.id}}"
-                               role="button"
-                               onclick="return confirm('Deseja realmente excluir este produto?');">
-                                <i class="bi bi-trash"></i>
-                            </a>
+                                <!-- Editar -->
+                                <a class="btn btn-outline-primary btn-sm me-1"
+                                   title="Editar Produto"
+                                   th:href="@{'/products/edit/' + ${product.id}}"
+                                   role="button">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+
+                                <!-- Excluir -->
+                                <a class="btn btn-outline-danger btn-sm"
+                                   title="Excluir Produto"
+                                   th:href="@{'/products/delete/' + ${product.id}}"
+                                   role="button"
+                                   onclick="return confirm('Deseja realmente excluir este produto?');">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+
+                            </div>
 
                         </td>
                     </tr>
