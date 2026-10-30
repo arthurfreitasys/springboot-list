@@ -1,6 +1,5 @@
 # Estágio 1: Build da Aplicação com Maven e OpenJDK 17
-FROM maven:3.9.6-eclipse-temurin-17 AS build
-WORKDIR /app
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 COPY pom.xml .
 # Baixa dependências para cache
 RUN mvn dependency:go-offline -B
@@ -8,8 +7,7 @@ COPY src ./src
 # Compila e gera o arquivo JAR executável ignorando os testes unitários de ambiente
 RUN mvn clean package -DskipTests
 # Estágio 2: Imagem de Execução Leve com JRE 17
-FROM eclipse-temurin:17-jre-alpine
-WORKDIR /app
+FROM eclipse-temurin:21-jre-alpine
 COPY --from=build /app/target/*.jar app.jar
 # Configuração da Porta dinâmica da Nuvem (Render/Koyeb definem a variável PORT)
 ENV PORT=8080
