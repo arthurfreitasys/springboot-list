@@ -1,16 +1,28 @@
-# Estágio 1: Build da Aplicação com Maven e OpenJDK 17
+# Estágio 1: Build da aplicação com Maven e OpenJDK 21
 FROM maven:3.9.6-eclipse-temurin-21 AS build
+
+WORKDIR /app
+
 COPY pom.xml .
+
 # Baixa dependências para cache
 RUN mvn dependency:go-offline -B
+
 COPY src ./src
-# Compila e gera o arquivo JAR executável ignorando os testes unitários de ambiente
+
+# Compila e gera o arquivo JAR
 RUN mvn clean package -DskipTests
-# Estágio 2: Imagem de Execução Leve com JRE 17
+
+# Estágio 2: Imagem de execução com JRE 21
 FROM eclipse-temurin:21-jre-alpine
+
+WORKDIR /app
+
 COPY --from=build /app/target/*.jar app.jar
-# Configuração da Porta dinâmica da Nuvem (Render/Koyeb definem a variável PORT)
+
+# Configuração da porta dinâmica
 ENV PORT=8080
 EXPOSE 8080
-# Inicialização da aplicação Spring Boot
+
+# Inicialização da aplicação
 ENTRYPOINT ["sh", "-c", "java -jar app.jar --server.port=${PORT}"]
